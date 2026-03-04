@@ -1,0 +1,31 @@
+# Spatial Grid System
+  
+## Overview
+A naive approach to repulsion, viscosity, and pressure calculations would be to loop through every surrounding particle and perform the necessary calculations. This would result in an O(n^2) complexity. 
+Instead, we can divide the space into a grid and perform calculations based on each cell of that grid. I estimate the complexity of this to get down to O(n + k) where k is the number of grid cells used. 
+
+## Overall Structure
+### Particle Array
+Every fluid particle will be stored in a contiguous 1D array that is used across all cells. Each particle will have a velocity, a position, and the grid cell it belongs to. 
+
+### Sorted Particle Map
+Static contiguous integer array that contains indices pointing to particles in the particle array. This is sorted based on what grid each particle's position belongs in. 
+
+### Grid Cell
+Each grid cell will itself be stored in a 1D array modeling a 2D spatial layout. A grid cell will store how many particles it owns, the average velocity of those particles (used for viscosity), a density gradient (for pressure), and the start and ending 
+indices of its owned particles in sorted map. 
+
+## Algorithm
+### Step 1: Cell Determination
+Loop through each particle and determine which cell it belongs to. Update the particles cell and increment the grid's number of particles and track the sum of the particle velocities. After the loop, divide the cell's velocity sum by number of particles to get average velocity. 
+
+### Step 2: Sort the map
+Sort the particle map based on grid cell. We can do this efficiently using a prefix sum since we can determine in step 1 how many particles belong in each cell.
+
+### Step 3: 
+Assign the start and end indices of each grid cells owned particles. 
+
+### Calculations:
+This format allows for efficient calculations of density (Grid cell's count), Gradient (density in comparison to neighbouring cells), and viscocity (push towards the average velocity of the cell). 
+All data structures are initialized once and are operated on in place to avoid repeated assignment. 
+  
