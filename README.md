@@ -1,7 +1,7 @@
 # Discrete Air-Flow Simulation
 
 ## Description
-Most explanations of airflow use a continuous calculus-based approach that abstracts away what the air is actually doing. The explanation that air flows faster over the top edge of an airfoil does not explain _why_ the air behaves that way. 
+Most explanations of airflow around an airfoil use a continuous calculus-based approach that abstracts away what the air is actually doing. The explanation that air flows faster over the top edge of an airfoil does not explain _why_ the air behaves that way. 
 What is far more intuitive is a discrete approach based on the movement of individual particles. This project will implement a discrete particle simulation designed for an aerospace museum kiosk. The simulation will clearly demonstrate the Coanda Effect, Pressure Voids, and Sonic Booms in a way that is emergent from a few simple principles.
 
 ## Physics Outline
