@@ -1,4 +1,4 @@
-# Spatial Grid System
+# Particle Grid System
   
 ## Overview
 A naive approach to repulsion, viscosity, and pressure calculations would be to loop through every surrounding particle and perform the necessary calculations. This would result in an O(n^2) complexity. 
