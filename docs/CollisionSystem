@@ -1,0 +1,27 @@
+# Collision Detection
+
+## Overview
+Use a Two-Tiered Sparse Grid system paired with a Signed Distance Field to produce a reliable and efficient collision system. 
+
+## MacroGrid
+A coarse 2D array of nullable pointers. When a cell contains geometry, it will point to a microgrid; otherwise, it will be null. Allows particles to skip collision calculation in blocks with no geometry. 
+
+## MicroGrid
+A finer grid with each cell containing SDF (distance to nearest edge), a normal (vector to nearest point outside the object), and a boolean isSolidCore used to resolve tunneling. 
+
+## Collision Pipeling
+### Step 1: Input & Baking
+- Allocation: When geometry is placed, only cells in the microgrid containing geometry are allocated. 
+- SDF: For each pixel in the cell, we calculate the distance to the nearest edge and the normal. Distance value is negative if inside a closed object (cannot be reached by an external flood fill via a Jump Flooding Algorithm). 
+- Floodfill: Blocks within a closed shape are marked as solid core to prevent tunneling.
+
+### Step 2: Runtime Lookup
+- Macro Check: Check what macro cell the particle is in. If the cell doesn not contain geometry (pointer is null), exit early.
+- Micro Check: Determine the microcell the particle is in. 
+- Collision response: If the distance is < 0, the particle is inside the geometry. Move the particle to the surface, and apply a bounce based on velocity and normal. 
+
+### Tunneling & Stability
+- SDF Recovery: Particles that wind up inside an object are pushed to the surface
+- Velocity Capping: global maximum velocity to ensure a particle cannot skip an entire macroblock in a single frame. 
+
+Note: For high speeds or non-closed objects, it might be best to shift to a Continuous Collision Detection method
